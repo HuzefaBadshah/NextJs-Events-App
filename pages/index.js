@@ -19,11 +19,11 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
-  const featuredEvents = await getFeaturedEvents();
+  const { events } = await getFeaturedEvents();
 
   return {
     props: {
-      events: featuredEvents,
+      events,
     },
     revalidate: 1800,
   };

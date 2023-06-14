@@ -1,27 +1,26 @@
 export async function getAllEvents() {
-  const response = await fetch('https://nextjs-course-c81cc-default-rtdb.firebaseio.com/events.json');
-  const data = await response.json();
 
-  const events = [];
+  const events = await fetch('http://localhost:5000/api/v1/events');
 
-  for (const key in data) {
-    events.push({
-      id: key,
-      ...data[key]
-    });
-  }
+  const { data } = await events.json();
 
-  return events;
+  return data;
 }
 
 export async function getFeaturedEvents() {
-  const allEvents = await getAllEvents();
-  return allEvents.filter((event) => event.isFeatured);
+
+  const events = await fetch('http://localhost:5000/api/v1/events/featured-events');
+
+  const { data } = await events.json();
+  return data;
 }
 
 export async function getEventById(id) {
-  const allEvents = await getAllEvents();
-  return allEvents.find((event) => event.id === id);
+
+  const events = await fetch(`http://localhost:5000/api/v1/events/${id}`);
+
+  const { data } = await events.json();
+  return data;
 }
 
 export async function getFilteredEvents(dateFilter) {

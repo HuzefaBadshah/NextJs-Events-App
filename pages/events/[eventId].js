@@ -8,7 +8,7 @@ import EventContent from '../../components/event-detail/event-content';
 import ErrorAlert from '../../components/ui/error-alert';
 
 function EventDetailPage(props) {
-  const event = props.selectedEvent;
+  const event = props.selectedEvent[0];
 
   if (!event) {
     return (
@@ -44,18 +44,18 @@ function EventDetailPage(props) {
 export async function getStaticProps(context) {
   const eventId = context.params.eventId;
 
-  const event = await getEventById(eventId);
+  const data = await getEventById(eventId);
 
   return {
     props: {
-      selectedEvent: event
+      selectedEvent: data
     },
     revalidate: 30
   };
 }
 
 export async function getStaticPaths() {
-  const events = await getFeaturedEvents();
+  const { events } = await getFeaturedEvents();
 
   const paths = events.map(event => ({ params: { eventId: event.id } }));
 
